@@ -1,0 +1,25 @@
+# Credenciais e sessão autenticada
+.env
+.env.*
+!.env.example
+storage_state.json
+.aws/
+
+# Ambiente Python e caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Arquivos gerados pela automação
+downloads/
+logs/
+*.log
+/export.xlsx
+.playwright-mcp/
+
+.cursor
