@@ -28,6 +28,7 @@ Para reprocessar, remova a entrada correspondente do JSON.
 from __future__ import annotations
 
 import argparse
+import grp
 import json
 import os
 import re
@@ -546,6 +547,11 @@ def salvar_propriedades(numero: str, registro: dict, arquivo: Path = OCORRENCIAS
             json.dump(dados, stream, ensure_ascii=False, indent=2)
             stream.write("\n")
             stream.flush()
+            etapa = "permissões do arquivo temporário"
+            # A substituição atômica preserva o grupo e modo do temporário,
+            # não os do JSON anterior. Permite leitura pelo Laravel.
+            os.fchown(stream.fileno(), -1, grp.getgrnam("www-data").gr_gid)
+            os.fchmod(stream.fileno(), 0o640)
             os.fsync(stream.fileno())
         print(f"{prefixo}: arquivo temporário gravado e sincronizado", flush=True)
         etapa = "substituição do JSON"
